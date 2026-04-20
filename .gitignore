@@ -1,1 +1,19 @@
-Nothing needs to be added to .gitignore since only a source file (`index.html`) was added without any build artifacts, dependencies, or temporary files.
+```
+# Dependencies
+node_modules/
+obj/
+bin/
+# Build artifacts
+dist/
+build/
+# Logs and temp files
+*.log
+*.tmp
+# Environment
+.env
+.env.local
+.env.*
+# Editors
+.vscode/
+.idea/
+```

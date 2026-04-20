@@ -1,7 +1,327 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<!-- Los libros y la astucia te salvarán. -->
 
-<h1>Hello, world!</h1>
+<PageTitle>Dos Años Mágicos - Nuestra 2da Expedición</PageTitle>
 
-Welcome to your new app.
+<div class="anniversary-page">
+    <!-- Header con sobre lacrado -->
+    <header class="header-section">
+        <div class="wax-seal">
+            <div class="freedom-wings">
+                <svg viewBox="0 0 100 100" class="wing-svg">
+                    <path d="M50 10 L30 40 L10 30 L25 60 L10 80 L40 70 L50 90 L60 70 L90 80 L75 60 L90 30 L70 40 Z" fill="#c9a227"/>
+                </svg>
+            </div>
+            <div class="magic-wand">
+                <span>✨</span>
+            </div>
+        </div>
+        <h1 class="header-title">Para la Chica que Leyó Sobrevivir a Dos Mundos</h1>
+        <p class="header-subtitle">Dos Años Mágicos - Nuestra 2da Expedición</p>
+    </header>
+
+    <!-- Hero Section con efecto Pensadero -->
+    <section class="hero-section">
+        <div class="pensieve-container">
+            <div class="pensieve-ripple"></div>
+            <div class="pensieve-ripple delay-1"></div>
+            <div class="pensieve-ripple delay-2"></div>
+            <div class="photo-placeholder">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%232a2a2a' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='18' fill='%23c9a227'%3ETu Foto Aquí%3C/text%3E%3C/svg%3E" alt="Nuestra foto" />
+                <p class="placeholder-text">📸 Sube vuestra foto aquí</p>
+            </div>
+        </div>
+        <h2 class="hero-title">Los 2 Años en 2 Dimensiones</h2>
+    </section>
+
+    <!-- Línea de Tiempo Interactiva -->
+    <section class="timeline-section">
+        <h2 class="section-title">Capítulos de Nuestra Historia</h2>
+        <div class="timeline-container">
+            @foreach (var chapter in chapters)
+            {
+                <div class="timeline-card @(chapter.IsUnlocked ? "unlocked" : "")" @onclick="() => SelectChapter(chapter)">
+                    <div class="card-chocolate-frog">
+                        <div class="card-frame">
+                            <span class="card-number">@chapter.Number</span>
+                            <h3 class="card-title">@chapter.Title</h3>
+                            <p class="card-description">@chapter.Description</p>
+                            <div class="card-date">@chapter.Date</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Sección Biblioteca -->
+    <section class="library-section">
+        <h2 class="section-title">Galería de Gustos</h2>
+        <div class="bookshelf">
+            @foreach (var book in books)
+            {
+                <div class="book" style="--book-color: @book.Color" @onclick="() => OpenBook(book)">
+                    <div class="book-spine">
+                        <span class="book-title">@book.Title</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Carta Final con Contador -->
+    <section class="letter-section">
+        <div class="parchment-scroll @(isUnlocked ? "unlocked" : "locked")">
+            <div class="scroll-top"></div>
+            <div class="scroll-content">
+                @if (!isUnlocked)
+                {
+                    <div class="lock-message">
+                        <div class="wax-seal-large">🔒</div>
+                        <h3>El Sello del Misterio</h3>
+                        <p>Esta carta solo puede ser abierta el 8 de Mayo de 2026</p>
+                        <div class="countdown-container">
+                            <p class="countdown-label">El sello del misterio se rompe en:</p>
+                            <div class="countdown-timer">
+                                <div class="time-unit">
+                                    <span class="time-value">@daysRemaining</span>
+                                    <span class="time-label">Días</span>
+                                </div>
+                                <div class="time-unit">
+                                    <span class="time-value">@hoursRemaining</span>
+                                    <span class="time-label">Horas</span>
+                                </div>
+                                <div class="time-unit">
+                                    <span class="time-value">@minutesRemaining</span>
+                                    <span class="time-label">Minutos</span>
+                                </div>
+                                <div class="time-unit">
+                                    <span class="time-value">@secondsRemaining</span>
+                                    <span class="time-label">Segundos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="love-letter">
+                        <h3>Mi Amor,</h3>
+                        <p>Dos años atrás comenzamos nuestra propia expedición más allá de los muros. Como diría Hermione, "los libros y la astucia nos han salvado", pero contigo he descubierto que el amor es la magia más poderosa de todas.</p>
+                        <p>Eres mi Ginny, mi Mikasa, mi compañera en esta aventura. No me arrepiento de nada. Esa es mi elección. Te elijo hoy y siempre.</p>
+                        <p class="signature">Con todo mi amor,<br/>Tu compañero de expedición</p>
+                        <p class="final-quote">"No me arrepiento de nada. Esa es mi elección. Te elijo hoy 8 de mayo." - Levi Ackerman</p>
+                    </div>
+                }
+            </div>
+            <div class="scroll-bottom"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <p>"No me arrepiento de nada. Esa es mi elección. Te elijo hoy 8 de mayo."</p>
+        <p class="footer-note">Hecho con magia y amor 💫</p>
+    </footer>
+</div>
+
+<!-- Modal para libros -->
+@if (selectedBook != null)
+{
+    <div class="modal-overlay" @onclick="CloseBook">
+        <div class="modal-content" @onclick:stopPropagation>
+            <button class="modal-close" @onclick="CloseBook">×</button>
+            <h3>@selectedBook.Title</h3>
+            <div class="carousel-container">
+                <div class="carousel-slide" style="transform: translateX(-@currentSlide * 100%)">
+                    @foreach (var item in selectedBook.Items)
+                    {
+                        <div class="carousel-item">
+                            @item
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button @onclick="PreviousSlide" disabled="@(currentSlide == 0)">←</button>
+                <span>@(currentSlide + 1) / @selectedBook.Items.Count</span>
+                <button @onclick="NextSlide" disabled="@(currentSlide >= selectedBook.Items.Count - 1)">→</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isUnlocked = false;
+    private int daysRemaining = 0;
+    private int hoursRemaining = 0;
+    private int minutesRemaining = 0;
+    private int secondsRemaining = 0;
+    private System.Timers.Timer? countdownTimer;
+    
+    private Chapter? selectedChapter;
+    private Book? selectedBook;
+    private int currentSlide = 0;
+    
+    private List<Chapter> chapters = new()
+    {
+        new Chapter { Number = "I", Title = "El Misterio del Anillo Desaparecido", Description = "Cuando dos corazones decidieron unir sus destinos para siempre.", Date = "2024", IsUnlocked = true },
+        new Chapter { Number = "II", Title = "La Maldición del Sofá Nuevo", Description = "Nuestro primer hogar y las aventuras de armarlo juntos.", Date = "2024", IsUnlocked = true },
+        new Chapter { Number = "III", Title = "El Secreto de la Luna de Miel", Description = "Descubriendo mundos nuevos de la mano del amor.", Date = "2024", IsUnlocked = true },
+        new Chapter { Number = "IV", Title = "La Conspiración del Primer Apartamento", Description = "Construyendo nuestro refugio contra titanes y dementores.", Date = "2025", IsUnlocked = true },
+        new Chapter { Number = "V", Title = "El Enigma de las Primeras Navidades", Description = "Celebrando nuestra primera fiesta como esposos.", Date = "2025", IsUnlocked = true },
+        new Chapter { Number = "VI", Title = "La Profecía del Segundo Aniversario", Description = "Dos años de magia, misterio y amor infinito.", Date = "2026", IsUnlocked = true }
+    };
+    
+    private List<Book> books = new()
+    {
+        new Book 
+        { 
+            Title = "Harry Potter", 
+            Color = "#740001",
+            Items = new List<string> 
+            { 
+                "🪄 'La felicidad se puede encontrar incluso en los momentos más oscuros, si uno recuerda encender la luz.' - Dumbledore",
+                "💕 'Después de todo este tiempo?' - 'Siempre.'",
+                "📚 Tu dedicatoria: Eres mi magia más poderosa, mi hechizo favorito."
+            }
+        },
+        new Book 
+        { 
+            Title = "Attack on Titan", 
+            Color = "#3d5c3d",
+            Items = new List<string> 
+            { 
+                "⚔️ 'Si ganas, vives. Si pierdes, mueres. Si no luchas, no puedes ganar.'",
+                "🛡️ 'El único modo de vencer a los monstruos es estar dispuesto a sacrificar tu humanidad.'",
+                "💕 Tu dedicatoria: Eres mi libertad, mi razón para luchar más allá de los muros."
+            }
+        },
+        new Book 
+        { 
+            Title = "Misterio", 
+            Color = "#4a3728",
+            Items = new List<string> 
+            { 
+                "🔍 'Todo misterio tiene una solución, pero el amor es el mayor enigma.'",
+                "📖 'En cada página descubrimos un nuevo secreto de nuestros corazones.'",
+                "💕 Tu dedicatoria: Cada día contigo es un nuevo capítulo por descubrir."
+            }
+        },
+        new Book 
+        { 
+            Title = "Nosotros", 
+            Color = "#c9a227",
+            Items = new List<string> 
+            { 
+                "💑 'Dos almas, un solo corazón.'",
+                "🏠 'Construyendo nuestro hogar, ladrillo a ladrillo, recuerdo a recuerdo.'",
+                "💕 Tu dedicatoria: Esta es nuestra historia, y apenas estamos comenzando."
+            }
+        }
+    };
+    
+    protected override void OnInitialized()
+    {
+        CheckUnlock();
+        StartCountdown();
+    }
+    
+    private void CheckUnlock()
+    {
+        var targetDate = new DateTime(2026, 5, 8, 0, 0, 0);
+        if (DateTime.Now >= targetDate)
+        {
+            isUnlocked = true;
+        }
+        UpdateCountdown();
+    }
+    
+    private void StartCountdown()
+    {
+        countdownTimer = new System.Timers.Timer(1000);
+        countdownTimer.Elapsed += (s, e) => InvokeAsync(() => {
+            UpdateCountdown();
+            StateHasChanged();
+        });
+        countdownTimer.Start();
+    }
+    
+    private void UpdateCountdown()
+    {
+        var targetDate = new DateTime(2026, 5, 8, 0, 0, 0);
+        var timeSpan = targetDate - DateTime.Now;
+        
+        if (timeSpan.TotalSeconds <= 0)
+        {
+            isUnlocked = true;
+            daysRemaining = 0;
+            hoursRemaining = 0;
+            minutesRemaining = 0;
+            secondsRemaining = 0;
+        }
+        else
+        {
+            daysRemaining = (int)timeSpan.TotalDays;
+            hoursRemaining = timeSpan.Hours;
+            minutesRemaining = timeSpan.Minutes;
+            secondsRemaining = timeSpan.Seconds;
+        }
+    }
+    
+    private void SelectChapter(Chapter chapter)
+    {
+        selectedChapter = chapter;
+    }
+    
+    private void OpenBook(Book book)
+    {
+        selectedBook = book;
+        currentSlide = 0;
+    }
+    
+    private void CloseBook()
+    {
+        selectedBook = null;
+        selectedChapter = null;
+    }
+    
+    private void NextSlide()
+    {
+        if (selectedBook != null && currentSlide < selectedBook.Items.Count - 1)
+        {
+            currentSlide++;
+        }
+    }
+    
+    private void PreviousSlide()
+    {
+        if (currentSlide > 0)
+        {
+            currentSlide--;
+        }
+    }
+    
+    public void Dispose()
+    {
+        countdownTimer?.Stop();
+        countdownTimer?.Dispose();
+    }
+    
+    public class Chapter
+    {
+        public string Number { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Date { get; set; } = "";
+        public bool IsUnlocked { get; set; } = true;
+    }
+    
+    public class Book
+    {
+        public string Title { get; set; } = "";
+        public string Color { get; set; } = "";
+        public List<string> Items { get; set; } = new();
+    }
+}
