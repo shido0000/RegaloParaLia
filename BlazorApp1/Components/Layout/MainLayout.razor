@@ -11,3 +11,41 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+<style>
+/* Estilos críticos embebidos para asegurar carga inmediata */
+.anniversary-page {
+    position: relative;
+    min-height: 100vh;
+}
+
+.anniversary-page::before {
+    content: '';
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(201, 162, 39, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    mix-blend-mode: screen;
+    follow-cursor: true;
+}
+
+html, body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: linear-gradient(180deg, #1a1a2e 0%, #2a2a3e 100%);
+    color: #f5e6d3;
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+</style>

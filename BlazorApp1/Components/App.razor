@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="BlazorApp1.styles.css" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <HeadOutlet />
 </head>
@@ -14,6 +13,34 @@
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+    <script>
+        // Script para seguir el cursor con el efecto Lumos
+        document.addEventListener('mousemove', function(e) {
+            const glow = document.querySelector('.anniversary-page::before');
+            if (glow) {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            }
+        });
+        
+        // Fallback para el efecto Lumos usando elemento real
+        const lumosEffect = document.createElement('div');
+        lumosEffect.style.position = 'fixed';
+        lumosEffect.style.width = '150px';
+        lumosEffect.style.height = '150px';
+        lumosEffect.style.background = 'radial-gradient(circle, rgba(201, 162, 39, 0.3) 0%, transparent 70%)';
+        lumosEffect.style.borderRadius = '50%';
+        lumosEffect.style.pointerEvents = 'none';
+        lumosEffect.style.zIndex = '9999';
+        lumosEffect.style.mixBlendMode = 'screen';
+        lumosEffect.style.transform = 'translate(-50%, -50%)';
+        document.body.appendChild(lumosEffect);
+        
+        document.addEventListener('mousemove', function(e) {
+            lumosEffect.style.left = e.clientX + 'px';
+            lumosEffect.style.top = e.clientY + 'px';
+        });
+    </script>
 </body>
 
 </html>
