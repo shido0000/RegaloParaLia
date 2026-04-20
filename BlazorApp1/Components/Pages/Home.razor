@@ -270,6 +270,15 @@
         }
     }
     
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Actualizar el contador cada segundo usando JS interop
+            await InvokeAsync(() => StateHasChanged());
+        }
+    }
+    
     private void SelectChapter(Chapter chapter)
     {
         selectedChapter = chapter;

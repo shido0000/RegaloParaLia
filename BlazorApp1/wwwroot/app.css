@@ -8,7 +8,7 @@
     --olive-green: #3d5c3d;
     --gold: #c9a227;
     --gold-light: #d4af37;
-    -- Gryffindor-red: #740001;
+    --gryffindor-red: #740001;
     --mystery-brown: #4a3728;
     --fog-gray: #2a2a3e;
 }
@@ -501,7 +501,7 @@ html, body {
 }
 
 .modal-close:hover {
-    color: var(--Gryffindor-red);
+    color: var(--gryffindor-red);
 }
 
 .carousel-container {
